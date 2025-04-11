@@ -6,6 +6,8 @@
     <title>F1 Calendar Generator</title>
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon-precomposed" href="images/apple-touch-icon-precomposed.png">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
@@ -13,7 +15,7 @@
     <!-- Alpine.js for state management -->
     <script defer src="https://unpkg.com/alpinejs@3.13.3/dist/cdn.min.js"></script>
 </head>
-<body>
+<body x-data="{ language: localStorage.getItem('language') || 'en' }">
     <!-- Racing-themed header -->
     <header class="site-header">
         <div class="container">
@@ -22,15 +24,15 @@
                     <img src="images/maquinasypilotoslogo.png" alt="F1 Calendar Logo">
                 </div>
                 <div>
-                    <h1 class="site-title" data-i18n="Site_Title">F1 Calendar Generator</h1>
-                    <p class="site-subtitle" data-i18n="Site_Subtitle">Your Racing Schedule Companion</p>
+                    <h1 class="site-title">Máquinas y Pilotos</h1>
+                    <p class="site-subtitle" x-text="language === 'en' ? 'F1 Calendar Generator' : 'Generador de Calendario F1'">F1 Calendar Generator</p>
                 </div>
             </div>
         </div>
     </header>
     <div class="header-accent"></div>
 
-    <div class="container mt-4" x-data="{ language: localStorage.getItem('language') || 'en' }">
+    <div class="container mt-4">
         <!-- Language selector -->
         <div class="row mb-3">
             <div class="col-md-12 language-selector">
