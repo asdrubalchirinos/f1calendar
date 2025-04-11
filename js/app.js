@@ -445,7 +445,11 @@ function generateAndDownloadIcal() {
     const blob = new Blob([icalData], { type: 'text/calendar;charset=utf-8' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = 'f1_calendar.ics';
+    // Add timestamp to filename to prevent caching
+    const timestamp = new Date().getTime();
+    link.download = `f1_calendar_${timestamp}.ics`;
+    // Set other attributes for proper handling
+    link.setAttribute('type', 'text/calendar');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
