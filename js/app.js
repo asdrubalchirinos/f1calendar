@@ -160,25 +160,35 @@ function renderGoogleCalRaces(races, language) {
         const raceDate = race.schedule?.race?.date || '';
         const raceTime = race.schedule?.race?.time || '';
         
-        // Prepare race object for Google Calendar
-        const calRace = {
-            raceName: raceName,
-            round: race.round,
-            date: raceDate,
-            time: raceTime,
-            circuit: {
-                circuitName: circuitName,
-                country: race.circuit?.country || '',
-                city: race.circuit?.city || ''
+        // Pre-calculate dates for Google Calendar
+        let calendarUrl = "#";
+        if (raceDate) {
+            try {
+                // Format dates for Google Calendar
+                const formattedDates = formatDatesForGoogleCalendar(raceDate, raceTime);
+                
+                // Format location
+                let location = circuitName || "";
+                if (race.circuit?.city && race.circuit?.country) {
+                    location += `, ${race.circuit.city}, ${race.circuit.country}`;
+                }
+                
+                // Create the URL directly with all parameters
+                const textParam = encodeURIComponent('F1: ' + raceName);
+                const datesParam = formattedDates;
+                const detailsParam = encodeURIComponent('Round ' + race.round + ' of the Formula 1 Season');
+                const locationParam = encodeURIComponent(location);
+                // Add timestamp to prevent caching
+                const cacheBuster = new Date().getTime();
+                calendarUrl = 'https://www.google.com/calendar/render?action=TEMPLATE&text=' + textParam + '&dates=' + datesParam + '&details=' + detailsParam + '&location=' + locationParam + '&cacheKey=' + cacheBuster;
+            } catch (error) {
+                console.error('Error creating calendar URL:', error);
             }
-        };
+        }
         
-        // Convert race to JSON string for the onclick handler
-        const raceJson = JSON.stringify(calRace).replace(/"/g, '&quot;');
-        
-        // Add button for each race
+        // Add link for each race
         html += `
-            <button class="list-group-item list-group-item-action" onclick='createGoogleCalUrl(JSON.parse("${raceJson}"))'>
+            <div class="list-group-item">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">${language === 'en' ? 'Round' : 'Ronda'} ${race.round}: ${raceName}</h5>
                     <span class="badge bg-danger rounded-pill">${language === 'en' ? 'Round' : 'Ronda'} ${race.round}</span>
@@ -191,11 +201,11 @@ function renderGoogleCalRaces(races, language) {
                     <div class="race-time" data-utc-date="${raceDate}" data-utc-time="${raceTime}">
                         <div class="formatted-date-time"></div>
                     </div>
-                    <span class="badge bg-primary rounded-pill">
+                    <a href="${calendarUrl}" class="btn btn-primary btn-sm" target="_blank" rel="noopener">
                         <i class="bi bi-plus-circle"></i> ${language === 'en' ? 'Add to Calendar' : 'Añadir al Calendario'}
-                    </span>
+                    </a>
                 </div>
-            </button>
+            </div>
         `;
     });
     
@@ -292,59 +302,32 @@ function formatDates() {
     });
 }
 
-// Create Google Calendar URL function 
-window.createGoogleCalUrl = function(race) {
-    const baseUrl = "https://calendar.google.com/calendar/r/eventedit";
-    const language = localStorage.getItem('language') || 'en';
+// Helper function to format dates for Google Calendar
+function formatDatesForGoogleCalendar(dateStr, timeStr) {
+    const startDate = new Date(`${dateStr}T${timeStr || '00:00:00Z'}`);
     
-    if (!race) {
-        alert(language === 'en' ? 'Race information not available.' : 'Información de la carrera no disponible.');
-        return;
-    }
+    // Start time
+    const startYear = startDate.getUTCFullYear();
+    const startMonth = (startDate.getUTCMonth() + 1).toString().padStart(2, '0');
+    const startDay = startDate.getUTCDate().toString().padStart(2, '0');
+    const startHours = startDate.getUTCHours().toString().padStart(2, '0');
+    const startMinutes = startDate.getUTCMinutes().toString().padStart(2, '0');
+    const startSeconds = startDate.getUTCSeconds().toString().padStart(2, '0');
+    const startTime = `${startYear}${startMonth}${startDay}T${startHours}${startMinutes}${startSeconds}Z`;
     
-    try {
-        const raceDateTime = new Date(`${race.date}T${race.time || '00:00:00Z'}`);
-        
-        // Format dates properly for Google Calendar (RFC 5545 format)
-        // Start time
-        const startYear = raceDateTime.getUTCFullYear();
-        const startMonth = (raceDateTime.getUTCMonth() + 1).toString().padStart(2, '0');
-        const startDay = raceDateTime.getUTCDate().toString().padStart(2, '0');
-        const startHours = raceDateTime.getUTCHours().toString().padStart(2, '0');
-        const startMinutes = raceDateTime.getUTCMinutes().toString().padStart(2, '0');
-        const startSeconds = raceDateTime.getUTCSeconds().toString().padStart(2, '0');
-        const startTime = `${startYear}${startMonth}${startDay}T${startHours}${startMinutes}${startSeconds}Z`;
-        
-        // End time is 2 hours later
-        const endDateTime = new Date(raceDateTime.getTime() + (2 * 60 * 60 * 1000));
-        const endYear = endDateTime.getUTCFullYear();
-        const endMonth = (endDateTime.getUTCMonth() + 1).toString().padStart(2, '0');
-        const endDay = endDateTime.getUTCDate().toString().padStart(2, '0');
-        const endHours = endDateTime.getUTCHours().toString().padStart(2, '0');
-        const endMinutes = endDateTime.getUTCMinutes().toString().padStart(2, '0');
-        const endSeconds = endDateTime.getUTCSeconds().toString().padStart(2, '0');
-        const endTime = `${endYear}${endMonth}${endDay}T${endHours}${endMinutes}${endSeconds}Z`;
-        
-        // Location
-        let location = race.circuit?.circuitName || "";
-        if (race.circuit?.city && race.circuit?.country) {
-            location += `, ${race.circuit.city}, ${race.circuit.country}`;
-        }
-        
-        // Details
-        const details = `Round ${race.round} of the Formula 1 Season`;
-        
-        // Create URL
-        const url = `${baseUrl}?text=F1: ${encodeURIComponent(race.raceName)}&dates=${startTime}/${endTime}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}&sf=true&output=xml`;
-        
-        // Open in new tab
-        window.open(url, '_blank');
-        
-    } catch (error) {
-        console.error('Error creating Google Calendar URL:', error);
-        alert(language === 'en' ? 'Error creating Google Calendar event. Please try again.' : 'Error al crear evento de Google Calendar. Por favor, inténtalo de nuevo.');
-    }
-};
+    // End time is 2 hours later
+    const endDate = new Date(startDate.getTime() + (2 * 60 * 60 * 1000));
+    const endYear = endDate.getUTCFullYear();
+    const endMonth = (endDate.getUTCMonth() + 1).toString().padStart(2, '0');
+    const endDay = endDate.getUTCDate().toString().padStart(2, '0');
+    const endHours = endDate.getUTCHours().toString().padStart(2, '0');
+    const endMinutes = endDate.getUTCMinutes().toString().padStart(2, '0');
+    const endSeconds = endDate.getUTCSeconds().toString().padStart(2, '0');
+    const endTime = `${endYear}${endMonth}${endDay}T${endHours}${endMinutes}${endSeconds}Z`;
+    
+    // Return the formatted dates string for Google Calendar
+    return `${startTime}/${endTime}`;
+}
 
 // Function to generate and download an iCal file
 function generateAndDownloadIcal() {
