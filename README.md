@@ -73,7 +73,7 @@ You can customize the application by:
 - F1 race data provided by [F1API.dev](https://f1api.dev/)
 - Icons from [Bootstrap Icons](https://icons.getbootstrap.com/)
 - Fonts from [Google Fonts](https://fonts.google.com/)
-- Project created by [Asdrubal Chirinos](https://github.com/asdrubalchirinos)
+- Project created by [Asdrubal Chirinos](https://github.com/asdrubalchirinos) | [@maquinaspilotos](https://twitter.com/maquinaspilotos) on X
 
 ## License
 
