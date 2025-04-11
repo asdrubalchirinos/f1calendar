@@ -14,7 +14,7 @@ A simple, elegant web application that allows F1 fans to add upcoming Formula 1 
 
 ## Live Demo
 
-Check out the live demo at [https://username.github.io/f1-calendar-generator](https://username.github.io/f1-calendar-generator)
+Check out the live demo at [https://asdrubalchirinos.github.io/f1calendar](https://asdrubalchirinos.github.io/f1calendar)
 
 ## Technologies Used
 
@@ -48,7 +48,7 @@ This application is designed to be fully compatible with GitHub Pages since it u
 4. Choose the main branch and the "(root)" folder
 5. Click "Save"
 
-Your site will be published at `https://yourusername.github.io/f1-calendar-generator/`
+Your site will be published at `https://yourusername.github.io/f1calendar/`
 
 ## How It Works
 
@@ -73,6 +73,7 @@ You can customize the application by:
 - F1 race data provided by [F1API.dev](https://f1api.dev/)
 - Icons from [Bootstrap Icons](https://icons.getbootstrap.com/)
 - Fonts from [Google Fonts](https://fonts.google.com/)
+- Project created by [Asdrubal Chirinos](https://github.com/asdrubalchirinos)
 
 ## License
 
