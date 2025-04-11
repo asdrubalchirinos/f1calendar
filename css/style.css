@@ -1,0 +1,151 @@
+/* Main styles for F1 Calendar Generator */
+:root {
+    --primary-blue: #1e5bc6;
+    --accent-red: #e10600;
+    --dark-gray: #2a2a2a;
+    --light-gray: #f8f9fa;
+    --neutral-white: #ffffff;
+    --accent-green: #00a14b;
+}
+
+body {
+    font-family: 'Montserrat', 'Arial', sans-serif;
+    background-color: var(--light-gray);
+    margin: 0;
+    padding: 0;
+}
+
+.site-header {
+    background: linear-gradient(135deg, var(--dark-gray) 0%, #3a3a3a 100%);
+    color: white;
+    padding: 1.5rem 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+.logo-container {
+    width: 80px;
+    height: 80px;
+    background-color: var(--primary-blue);
+    border-radius: 50%;
+    padding: 10px;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--neutral-white);
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.logo-container img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.site-title {
+    font-family: 'Racing Sans One', 'Montserrat', sans-serif;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+    color: var(--neutral-white);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.site-subtitle {
+    font-size: 1rem;
+    font-style: italic;
+    margin-top: 0.25rem;
+    color: var(--neutral-white);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.header-accent {
+    height: 4px;
+    background: linear-gradient(to right, var(--primary-blue), var(--accent-red));
+}
+
+.f1-header {
+    background-color: var(--accent-red);
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+}
+
+.f1-title {
+    font-weight: bold;
+}
+
+.f1-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    margin-bottom: 2rem;
+}
+
+.f1-card:hover {
+    transform: translateY(-5px);
+}
+
+.f1-card-header {
+    background-color: var(--accent-red);
+    color: white;
+    font-weight: bold;
+}
+
+.f1-btn-primary {
+    background-color: var(--primary-blue);
+    border-color: var(--primary-blue);
+}
+
+.f1-btn-primary:hover {
+    background-color: #0b3d9c;
+    border-color: #0b3d9c;
+}
+
+.f1-btn-success {
+    background-color: var(--accent-green);
+    border-color: var(--accent-green);
+}
+
+.f1-btn-success:hover {
+    background-color: #007c39;
+    border-color: #007c39;
+}
+
+.race-time {
+    min-width: 200px;
+}
+
+.language-selector {
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+footer {
+    color: #6c757d;
+    margin-top: 3rem;
+    padding: 1rem 0;
+    border-top: 1px solid #dee2e6;
+}
+
+@media (max-width: 768px) {
+    .site-title {
+        font-size: 1.75rem;
+    }
+    
+    .site-subtitle {
+        font-size: 0.8rem;
+    }
+    
+    .logo-container {
+        width: 60px;
+        height: 60px;
+    }
+} 

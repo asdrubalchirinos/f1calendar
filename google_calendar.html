@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 Calendar Generator - Google Calendar Import</title>
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Racing+Sans+One&display=swap" rel="stylesheet">
+    <!-- Alpine.js for state management -->
+    <script defer src="https://unpkg.com/alpinejs@3.13.3/dist/cdn.min.js"></script>
+</head>
+<body>
+    <!-- Racing-themed header -->
+    <header class="site-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="images/maquinasypilotoslogo.png" alt="F1 Calendar Logo">
+                </div>
+                <div>
+                    <h1 class="site-title" data-i18n="Site_Title">F1 Calendar Generator</h1>
+                    <p class="site-subtitle" data-i18n="Site_Subtitle">Your Racing Schedule Companion</p>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="header-accent"></div>
+
+    <div class="container mt-4" x-data="{ language: localStorage.getItem('language') || 'en' }">
+        <!-- Language selector -->
+        <div class="row mb-3">
+            <div class="col-md-12 language-selector">
+                <div class="btn-group" role="group" aria-label="Language Selector">
+                    <button type="button" class="btn btn-outline-secondary language-btn" 
+                            :class="{ 'active': language === 'en' }"
+                            @click="language = 'en'; localStorage.setItem('language', 'en');">
+                        <i class="bi bi-globe"></i> English
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary language-btn" 
+                            :class="{ 'active': language === 'es' }"
+                            @click="language = 'es'; localStorage.setItem('language', 'es');">
+                        <i class="bi bi-globe"></i> Español
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 text-center mb-4">
+                <h2 x-text="language === 'en' ? 'Import Upcoming F1 Races' : 'Importar Próximas Carreras de F1'" class="f1-title"></h2>
+                <p class="lead" x-text="language === 'en' ? 'Add upcoming Formula 1 races to your Google Calendar' : 'Añade las próximas carreras de Fórmula 1 a tu Google Calendar'"></p>
+                <a href="index.html" class="btn btn-outline-secondary mb-3">
+                    <i class="bi bi-arrow-left"></i> <span x-text="language === 'en' ? 'Back to Home' : 'Volver al Inicio'"></span>
+                </a>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-8">
+                <div class="card f1-card">
+                    <div class="card-header bg-success text-white f1-card-header">
+                        <h3 class="card-title mb-0" x-text="language === 'en' ? 'Import Instructions' : 'Instrucciones de Importación'"></h3>
+                    </div>
+                    <div class="card-body">
+                        <p x-text="language === 'en' ? 'Due to the limitations of Google Calendar import URLs, you\'ll need to add each race individually. Click on each race below to add it to your Google Calendar.' : 'Debido a las limitaciones de Google Calendar, necesitas añadir cada carrera individualmente. Haz clic en las carreras para añadirlas a tu calendario.'"></p>
+                        
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle-fill"></i> <span x-text="language === 'en' ? 'Clicking on a race link will open a new tab with Google Calendar. You\'ll need to confirm the addition of each event.' : 'Al hacer clic en una carrera, se abrirá Google Calendar en una nueva pestaña. Deberás confirmar la adición del evento.'"></span>
+                        </div>
+                        
+                        <h4 class="mt-4 mb-3" x-text="language === 'en' ? 'Upcoming Races to Import' : 'Próximas Carreras para Importar'"></h4>
+                        
+                        <div id="google-cal-races">
+                            <!-- Races will be loaded by JavaScript -->
+                            <div id="loading-indicator" class="text-center py-5">
+                                <div class="spinner-border text-success" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-2" x-text="language === 'en' ? 'Loading race data...' : 'Cargando datos de carreras...'"></p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-5 mb-3 text-center">
+            <p class="text-muted" x-text="language === 'en' ? 'Data provided by F1API.dev. This application is not affiliated with Formula 1.' : 'Datos proporcionados por F1API.dev. Esta aplicación no está afiliada a Fórmula 1.'"></p>
+            <p class="text-muted">&copy; <span id="current-year">2025</span> <span>F1 Calendar Generator</span></p>
+        </footer>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // Set current year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html> 
