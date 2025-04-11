@@ -304,11 +304,26 @@ window.createGoogleCalUrl = function(race) {
     
     try {
         const raceDateTime = new Date(`${race.date}T${race.time || '00:00:00Z'}`);
-        const startTime = raceDateTime.toISOString().replace(/-|:|\.\d+/g, "");
+        
+        // Format dates properly for Google Calendar (RFC 5545 format)
+        // Start time
+        const startYear = raceDateTime.getUTCFullYear();
+        const startMonth = (raceDateTime.getUTCMonth() + 1).toString().padStart(2, '0');
+        const startDay = raceDateTime.getUTCDate().toString().padStart(2, '0');
+        const startHours = raceDateTime.getUTCHours().toString().padStart(2, '0');
+        const startMinutes = raceDateTime.getUTCMinutes().toString().padStart(2, '0');
+        const startSeconds = raceDateTime.getUTCSeconds().toString().padStart(2, '0');
+        const startTime = `${startYear}${startMonth}${startDay}T${startHours}${startMinutes}${startSeconds}Z`;
         
         // End time is 2 hours later
-        const endTime = new Date(raceDateTime.getTime() + (2 * 60 * 60 * 1000))
-            .toISOString().replace(/-|:|\.\d+/g, "");
+        const endDateTime = new Date(raceDateTime.getTime() + (2 * 60 * 60 * 1000));
+        const endYear = endDateTime.getUTCFullYear();
+        const endMonth = (endDateTime.getUTCMonth() + 1).toString().padStart(2, '0');
+        const endDay = endDateTime.getUTCDate().toString().padStart(2, '0');
+        const endHours = endDateTime.getUTCHours().toString().padStart(2, '0');
+        const endMinutes = endDateTime.getUTCMinutes().toString().padStart(2, '0');
+        const endSeconds = endDateTime.getUTCSeconds().toString().padStart(2, '0');
+        const endTime = `${endYear}${endMonth}${endDay}T${endHours}${endMinutes}${endSeconds}Z`;
         
         // Location
         let location = race.circuit?.circuitName || "";
