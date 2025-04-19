@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2QBKTP05RT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-2QBKTP05RT');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Download Formula 1 race calendar for the current season. Add F1 races, qualifying sessions, and sprint races to your calendar.">
+    <meta name="description"
+        content="Download Formula 1 race calendar for the current season. Add F1 races, qualifying sessions, and sprint races to your calendar.">
     <!-- Prevent caching -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>F1 Calendar Generator</title>
-    
+
     <!-- Open Graph / Social Media Meta Tags -->
     <meta property="og:title" content="F1 Calendar Generator - Máquinas y Pilotos">
-    <meta property="og:description" content="Add upcoming Formula 1 races to your calendar. Download as iCal or import to Google Calendar.">
+    <meta property="og:description"
+        content="Add upcoming Formula 1 races to your calendar. Download as iCal or import to Google Calendar.">
     <meta property="og:image" content="https://f1calendar.maquinasypilotos.com/images/maquinasypilotoslogo.png">
     <meta property="og:url" content="https://f1calendar.maquinasypilotos.com/">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    
+
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
@@ -25,10 +38,12 @@
     <link rel="stylesheet" href="css/style.css?v=1.0.1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Racing+Sans+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Racing+Sans+One&display=swap"
+        rel="stylesheet">
     <!-- Alpine.js for state management -->
     <script defer src="https://unpkg.com/alpinejs@3.13.3/dist/cdn.min.js"></script>
 </head>
+
 <body x-data="{ language: localStorage.getItem('language') || 'en' }">
     <!-- Racing-themed header -->
     <header class="site-header">
@@ -39,7 +54,9 @@
                 </div>
                 <div>
                     <h1 class="site-title">Máquinas y Pilotos</h1>
-                    <p class="site-subtitle" x-text="language === 'en' ? 'F1 Calendar Generator' : 'Generador de Calendario F1'">F1 Calendar Generator</p>
+                    <p class="site-subtitle"
+                        x-text="language === 'en' ? 'F1 Calendar Generator' : 'Generador de Calendario F1'">F1 Calendar
+                        Generator</p>
                 </div>
             </div>
         </div>
@@ -51,14 +68,14 @@
         <div class="row mb-3">
             <div class="col-md-12 language-selector">
                 <div class="btn-group" role="group" aria-label="Language Selector">
-                    <button type="button" class="btn btn-outline-secondary language-btn" 
-                            :class="{ 'active': language === 'en' }"
-                            @click="language = 'en'; localStorage.setItem('language', 'en');">
+                    <button type="button" class="btn btn-outline-secondary language-btn"
+                        :class="{ 'active': language === 'en' }"
+                        @click="language = 'en'; localStorage.setItem('language', 'en');">
                         <i class="bi bi-globe"></i> English
                     </button>
-                    <button type="button" class="btn btn-outline-secondary language-btn" 
-                            :class="{ 'active': language === 'es' }"
-                            @click="language = 'es'; localStorage.setItem('language', 'es');">
+                    <button type="button" class="btn btn-outline-secondary language-btn"
+                        :class="{ 'active': language === 'es' }"
+                        @click="language = 'es'; localStorage.setItem('language', 'es');">
                         <i class="bi bi-globe"></i> Español
                     </button>
                 </div>
@@ -68,7 +85,9 @@
         <div class="row">
             <div class="col-md-12 text-center mb-4">
                 <h2 x-text="language === 'en' ? 'Formula 1 Calendar' : 'Calendario de Fórmula 1'" class="f1-title"></h2>
-                <p class="lead" x-text="language === 'en' ? 'Add the current F1 season to your calendar with all races, sprints, and qualifying sessions.' : 'Añade la temporada actual de F1 a tu calendario con todas las carreras, sprints y clasificaciones.'"></p>
+                <p class="lead"
+                    x-text="language === 'en' ? 'Add the current F1 season to your calendar with all races, sprints, and qualifying sessions.' : 'Añade la temporada actual de F1 a tu calendario con todas las carreras, sprints y clasificaciones.'">
+                </p>
             </div>
         </div>
 
@@ -76,15 +95,18 @@
             <div class="col-md-6">
                 <div class="card f1-card">
                     <div class="card-header bg-danger text-white f1-card-header">
-                        <h3 class="card-title mb-0" x-text="language === 'en' ? 'Calendar Options' : 'Opciones de Calendario'"></h3>
+                        <h3 class="card-title mb-0"
+                            x-text="language === 'en' ? 'Calendar Options' : 'Opciones de Calendario'"></h3>
                     </div>
                     <div class="card-body">
                         <div class="d-grid gap-3">
                             <button id="download-ical-btn" class="btn btn-primary btn-lg f1-btn-primary">
-                                <i class="bi bi-calendar"></i> <span x-text="language === 'en' ? 'Download iCal (.ics)' : 'Descargar Archivo iCal (.ics)'"></span>
+                                <i class="bi bi-calendar"></i> <span
+                                    x-text="language === 'en' ? 'Download iCal (.ics)' : 'Descargar Archivo iCal (.ics)'"></span>
                             </button>
                             <a href="google_calendar.html" class="btn btn-success btn-lg f1-btn-success">
-                                <i class="bi bi-google"></i> <span x-text="language === 'en' ? 'Import to Google Calendar' : 'Importar a Google Calendar'"></span>
+                                <i class="bi bi-google"></i> <span
+                                    x-text="language === 'en' ? 'Import to Google Calendar' : 'Importar a Google Calendar'"></span>
                             </a>
                         </div>
                     </div>
@@ -95,22 +117,26 @@
         <div class="row">
             <div class="col-md-12">
                 <h2 class="mb-4" x-text="language === 'en' ? 'Upcoming Races' : 'Próximas Carreras'"></h2>
-                
+
                 <div id="races-container" class="pb-3">
                     <!-- Races will be loaded by JavaScript -->
                     <div id="loading-indicator" class="text-center py-5">
                         <div class="spinner-border text-danger" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
-                        <p class="mt-2" x-text="language === 'en' ? 'Loading race data...' : 'Cargando datos de carreras...'"></p>
+                        <p class="mt-2"
+                            x-text="language === 'en' ? 'Loading race data...' : 'Cargando datos de carreras...'"></p>
                     </div>
                 </div>
             </div>
         </div>
 
         <footer class="mt-5 mb-3 text-center">
-            <p class="text-muted" x-text="language === 'en' ? 'Data provided by F1API.dev. This application is not affiliated with Formula 1.' : 'Datos proporcionados por F1API.dev. Esta aplicación no está afiliada a Fórmula 1.'"></p>
-            <p class="text-muted">&copy; <span id="current-year">2025</span> <span>Máquinas y Pilotos | F1 Calendar</span></p>
+            <p class="text-muted"
+                x-text="language === 'en' ? 'Data provided by F1API.dev. This application is not affiliated with Formula 1.' : 'Datos proporcionados por F1API.dev. Esta aplicación no está afiliada a Fórmula 1.'">
+            </p>
+            <p class="text-muted">&copy; <span id="current-year">2025</span> <span>Máquinas y Pilotos | F1
+                    Calendar</span></p>
             <p class="text-muted">
                 <a href="https://x.com/maquinaspilotos" target="_blank" rel="noopener noreferrer" class="text-muted">
                     <i class="bi bi-twitter-x"></i>@maquinaspilotos
@@ -118,7 +144,7 @@
             </p>
         </footer>
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/app.js?v=1.0.2"></script>
     <script>
@@ -126,4 +152,5 @@
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
 </body>
-</html> 
+
+</html>
